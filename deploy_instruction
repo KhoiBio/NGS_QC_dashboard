@@ -1,0 +1,42 @@
+1. Create the React project in windown powershell:
+  npx create-react-app binings-dashboard
+cd binings-dashboard
+npm install recharts
+
+  2. Replace the default App
+  # Delete the default src files
+rm src/App.js src/App.css src/App.test.js src/logo.svg
+
+  3. Then copy your downloaded multiomics-qc-dashboard.jsx into src/ and rename it App.jsx. Open src/index.js and make sure it says:.
+    import App from './App';
+4. test locally :
+npm start
+# Should open at localhost:3000
+
+  5. push to github :
+git init
+git add .
+git commit -m "BiNGS QC Dashboard"
+gh repo create binings-dashboard --public --push
+
+  6. deploy on aws amplify :
+Go to console.aws.amazon.com/amplify
+Click "Create new app" → "Host web app"
+Choose GitHub → authorize → select binings-dashboard
+Build settings auto-detect as React — hit Save and Deploy
+~3 minutes later you get a live URL like https://main.d1abc.amplifyapp.com
+
+If amplify fail, paste this to build setting :
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm install
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
